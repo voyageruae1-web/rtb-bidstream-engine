@@ -1,4 +1,5 @@
-const { startConsumer } = require("./kafka/consumer");
+const {
+  startConsumer
+} = require("./kafka/consumer");
 
 startConsumer();
-console.log("Auction Engine running");

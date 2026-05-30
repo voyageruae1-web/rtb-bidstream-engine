@@ -1,27 +1,35 @@
 const { consumer } = require("../../shared/kafka/client");
-const topics = require("../../shared/kafka/topics");
+const { runAuction } = require("../services/auction.service");
 
 async function startConsumer() {
   await consumer.connect();
+
   await consumer.subscribe({
-    topic: topics.BID_REQUEST,
-    fromBeginning: false,
-  });
+  topic: "bid-requests",
+  fromBeginning: true
+});
 
   await consumer.run({
     eachMessage: async ({ message }) => {
-      const bid = JSON.parse(message.value.toString());
+      const bidRequest = JSON.parse(
+        message.value.toString()
+      );
 
-      console.log("Received bid:", bid);
+      console.log(
+        "Auction Engine received:",
+        bidRequest.bidId
+      );
 
-      const result = {
-        win: true,
-        price: Math.random() * 5,
-      };
+      const result = runAuction(bidRequest);
 
-      console.log("Auction result:", result);
-    },
+      console.log(
+        "Auction Result:",
+        result
+      );
+    }
   });
 }
 
-module.exports = { startConsumer };
+module.exports = {
+  startConsumer
+};

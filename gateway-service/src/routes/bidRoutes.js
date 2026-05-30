@@ -1,11 +1,10 @@
 const express = require("express");
-
 const router = express.Router();
 
 const {
-  receiveBidRequest
+  receiveBidRequest,
 } = require("../controllers/bidController");
 
-router.post("/bid", receiveBidRequest);
+router.post("/bids", receiveBidRequest);
 
 module.exports = router;

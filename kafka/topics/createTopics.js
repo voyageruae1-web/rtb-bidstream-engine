@@ -1,4 +1,4 @@
-const { kafka } = require("../../shared/kafkaClient");
+const { kafka } = require("../../shared/kafka/client");
 
 async function createTopics() {
   const admin = kafka.admin();
