@@ -1,11 +1,22 @@
-function runAuction(bidRequest) {
+const {
+  findMatchingCampaigns
+} = require("../../campaign-matcher/services/campaignMatcher");
+
+async function runAuction(bidRequest) {
   console.log("Running auction for:", bidRequest.bidId);
 
+  const matchedCampaigns =
+    findMatchingCampaigns(bidRequest);
+
+  console.log(
+    "Matched Campaigns:",
+    matchedCampaigns
+  );
+
   return {
-    auctionId: `auc-${Date.now()}`,
     bidId: bidRequest.bidId,
-    winningPrice: Math.floor(Math.random() * 100) + 1,
-    timestamp: new Date().toISOString()
+    publisher: bidRequest.publisher,
+    matchedCampaigns
   };
 }
 

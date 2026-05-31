@@ -2,6 +2,7 @@ const express = require("express");
 const { startProducer, sendBidRequest } = require("./kafka/producer");
 
 const app = express();
+
 app.use(express.json());
 
 startProducer();
@@ -14,6 +15,6 @@ app.post("/bid", async (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Gateway running on 3000");
+app.listen(5000, () => {
+  console.log("Gateway running on 5000");
 });
