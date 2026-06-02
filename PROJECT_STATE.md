@@ -1,35 +1,120 @@
-# RTB Bidstream Engine — PROJECT STATE
+# PROJECT_STATE.md
 
-🕒 Last Updated: 2026-05-31
+## RTB Bidstream Engine
 
----
+### LATEST VERIFIED STATE
 
-## 🧭 ACTIVE SERVICES
+Phase 5.1 COMPLETE ✅
 
-- gateway-service (ACTIVE)
-- auction-engine (ACTIVE)
+### Verified Working Flow
 
----
+Gateway Service (Port 5000)
+↓
+Kafka Topic (bid-requests)
+↓
+Auction Engine
+↓
+Campaign Matching Engine
+↓
+Matched Campaigns Returned
 
-## ⚡ KAFKA STATUS
+### Verified Test Request
 
-- Producer: ACTIVE
-- Consumer: ACTIVE
-- Broker: RUNNING (localhost:9092)
+```json
+{
+  "bidId": "bid123",
+  "publisher": "demo-site"
+}
+```
 
----
+### Verified Auction Engine Output
 
-## 🔁 PIPELINE STATUS
+```text
+Auction Engine received: bid123
 
-Gateway → Kafka → Auction Engine → Auction Result
+Running auction for: bid123
 
-STATUS: FULLY FUNCTIONAL (Phase 4.4 COMPLETE)
+Matched Campaigns:
+- Nike
+- Puma
+```
 
----
+### Verified API Response
 
-## 📊 VERIFIED FLOW
+```json
+{
+  "status": "sent_to_kafka"
+}
+```
 
-- Bid request accepted
-- Kafka message published
-- Auction engine consumed message
-- Auction result generated
+### Infrastructure Status
+
+Gateway Service:
+
+* Running on Port 5000
+* Kafka Producer Connected
+
+Auction Engine:
+
+* Kafka Consumer Connected
+* Receiving bid requests successfully
+
+Kafka:
+
+* bid-requests topic operational
+
+Campaign Matcher:
+
+* Matching campaigns by publisher
+* Returning eligible campaigns successfully
+
+### Git Status
+
+Working tree clean
+
+```bash
+git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+### Current Repository
+
+```text
+C:\Users\dell\rtb-bidstream-engine
+```
+
+### Current Target
+
+Phase 5.2 — Campaign Database Query
+
+Goal:
+
+* Replace hardcoded campaigns
+* Fetch campaigns from PostgreSQL
+* Use Prisma ORM
+* Prepare for production-scale campaign management
+
+### Notes
+
+Port 3000 is occupied by Grafana.
+
+Gateway Service migrated to:
+
+http://localhost:5000
+
+Testing command:
+
+```powershell
+Invoke-RestMethod `
+-Uri "http://localhost:5000/bid" `
+-Method Post `
+-ContentType "application/json" `
+-Body '{"bidId":"bid123","publisher":"demo-site"}'
+```
+
+### Next Phase
+
+Phase 5.2 — PostgreSQL + Prisma Campaign Database Integration
