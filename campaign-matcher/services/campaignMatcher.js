@@ -1,11 +1,15 @@
-const campaigns = require("../data/campaigns");
+const { PrismaClient } = require("@prisma/client");
 
-function findMatchingCampaigns(bidRequest) {
-  const matched = campaigns.filter(
-    (campaign) => campaign.publisher === bidRequest.publisher
-  );
+const prisma = new PrismaClient();
 
-  return matched;
+async function findMatchingCampaigns(bidRequest) {
+  const matchedCampaigns = await prisma.campaign.findMany({
+    where: {
+      status: "ACTIVE"
+    }
+  });
+
+  return matchedCampaigns;
 }
 
 module.exports = {
